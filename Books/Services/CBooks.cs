@@ -15,35 +15,27 @@ namespace Books.Services
 
 
         //Definiendo los parametros de conexion a la Base de datos
-        public CBooks(IDatabaseStrings databaseStrings )        {
-          
+        public CBooks(IDatabaseStrings databaseStrings)
+        {
+
             var client = new MongoClient(databaseStrings.ConnectionStrings);
 
             var database = client.GetDatabase(databaseStrings.DatabaseName);
 
-            _book = database.GetCollection<Book>(databaseStrings.CollectionName);            
-            
-        }
-
-
-        public List<Book> GetBooks()
-        {
-            return _book.Find<Book>(x => true).ToList();
-        }
-
-
-        public  List<Book> SearchBookByTitle(string title)
-        {
-            List<Book> libros = _book.Find<Book>(x => x.title.Contains(title.ToLower().Trim())).ToList();
-            return libros;
+            _book = database.GetCollection<Book>(databaseStrings.CollectionName);
 
         }
-
-        public Book SearchBookByPrice(int price)
-        {
-            return _book.Find<Book>(x => x.price == price).FirstOrDefault();
-        }
-
         
+
+        public async Task<IEnumerable<Book>> GetBooks() => await _book.Find<Book>(x => true).ToListAsync();        
+
+
+        public async Task<IEnumerable<Book>> SearchBookByTitle(string title) => await _book.Find<Book>(x => x.title.Contains(title.ToLower().Trim())).ToListAsync();
+       
+
+        public async Task<Book> SearchBookByPrice(int price) => await _book.Find<Book>(x => x.price == price).FirstOrDefaultAsync();
+        
+
+
     }
 }

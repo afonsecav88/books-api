@@ -18,15 +18,13 @@ namespace Books.Controllers
         public BooksController( IBooks book)
         {
             _book = book;
-        }
-        
-        
-        
+        }       
+                
         // GET: api/<controller>
         [HttpGet]
-        public ActionResult<List<Book>> GetBooks()
+        public async Task<ActionResult<IAsyncEnumerable<Book>>> GetBooks()
         {
-            var books = _book.GetBooks();
+            var books =  await _book.GetBooks();
 
             if (books == null )
             {
@@ -38,11 +36,11 @@ namespace Books.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{title}", Name = "GetArticuloByTitle")]
-        public ActionResult<List<Book>> GetArticuloByTitle( string title)
+        public async Task<ActionResult<IAsyncEnumerable<Book>>> GetArticuloByTitle( string title)
         {
-            var books = _book.SearchBookByTitle(title);
+            var books = await _book.SearchBookByTitle(title);
 
-            if (books.Count<=0)
+            if (books.Count() <= 0)
             {
                 return NotFound("No existen ningun libro con ese titulo");
             }
@@ -52,9 +50,9 @@ namespace Books.Controllers
 
         // POST api/<controller>
         [HttpGet("{precio:int}", Name = "GetArticuloByPrecio")]
-        public ActionResult<List<Book>> GetArticuloByPrecio(int precio)
+        public async Task<ActionResult<IAsyncEnumerable<Book>>> GetArticuloByPrecio(int precio)
         {
-            var books = _book.SearchBookByPrice(precio);
+            var books = await _book.SearchBookByPrice(precio);
 
             if (books == null)
             {
