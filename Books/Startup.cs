@@ -33,16 +33,14 @@ namespace Books
            //definiendo la cadena de conexión
             services.Configure<DatabaseStrings>(
            Configuration.GetSection(nameof(DatabaseStrings)));
-
-
-            services.AddScoped<IBooks, CBooks>();
+                       
 
             //Definiendo DI
             services.AddSingleton<IDatabaseStrings>(x =>
             x.GetRequiredService<IOptions<DatabaseStrings>>().Value);
 
-          
-     
+            services.AddScoped<IBooks, CBooks>();
+                       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

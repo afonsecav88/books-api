@@ -10,11 +10,11 @@ namespace Books.Interfaces
     public interface IBooks
     {
 
-      List<Book> GetBooks();
+        Task<IEnumerable<Book>> GetBooks();
 
-      List<Book> SearchBookByTitle(string title);
+        Task<IEnumerable<Book>> SearchBookByTitle(string title);
 
-     Book SearchBookByPrice(int price);
+        Task<Book> SearchBookByPrice(int price);
 
     }
 }
